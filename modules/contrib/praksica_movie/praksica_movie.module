@@ -1,0 +1,9 @@
+<?php
+
+function praksica_movie_theme($existing, $type, $theme, $path){
+    return array(
+        'movie_list' => array(
+            'variables' => array('items' => array(), 'title' => '')
+        )
+    );
+}
