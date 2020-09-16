@@ -1,14 +1,6 @@
 praksica_movie:
-    path: /praksica/movie
+    path: /praksica/movies
     defaults:
-         _controller: Drupal\praksica_movie\Controller\PraksicaMovieController::movie
-    requirements:
-          _permission: 'access content'
-
-
-praksica_movie2:
-    path: /praksica/page
-    defaults:
-         _controller: Drupal\praksica_movie\Controller\PraksicaMovieController::page
+         _controller: Drupal\praksica_movie\Controller\PraksicaMovieController::movies
     requirements:
           _permission: 'access content'

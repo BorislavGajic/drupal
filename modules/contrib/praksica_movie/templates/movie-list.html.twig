@@ -1,6 +1,21 @@
-<h4>{{ title }}</h4>
 <ul>
-	{% for article in items %}
-		<li>{{ article.name }}</li>
+	{%for movie in movies %}
+		<li>
+			<div>
+				<h1>
+					{{movie.title}}
+				</h1>
+			</div>
+			<div>
+				<b>Description:
+				</b>
+				{{movie.description | replace ({'<p>':'', '</p>':''})}}
+			</div>
+			<div>
+				<b>Image:
+				</b>
+				<img src="{{ file_url(movie.image) }}"/>
+			</div>
+		</li>
 	{% endfor %}
 </ul>
