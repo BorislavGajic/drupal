@@ -36,29 +36,11 @@ class PraksicaMovieController extends ControllerBase {
 
 
     public function movies(){
-        $nids= $this->entityQuery->get('node')->condition('type', 'movie')->execute();
-        $movie_nodes = $this->entityTypeManager->getStorage('node')->loadMultiple($nids);
-        $movies2= array();
-        
-        foreach ($movie_nodes as $movie){
-            $movies_from_for = array(
-                    'title' => $movie->title->value,
-                    'description' => $movie->field_description_field->value,
-                    'image' => $movie->field_image_field1->entity->createFileUrl()
-            );
-            array_push ($movies2, $movies_from_for);
-        }
 
         $request = $this->requestStack->getCurrentRequest();
         $searchString = $request->get('search');
-
-        foreach($movies2 as $key => $observeMovie){
-            if((strcasecmp($searchString, array_values($observeMovie)[0]))==0 && ($searchString != null)){
-                $movies2 = array();
-                array_push($movies2 ,$observeMovie);
-            break;
-            }
-        }
+        $movies2 = $this->loadAll($searchString);
+        
 
         return array(
             '#theme' => 'movie_list',
@@ -68,4 +50,35 @@ class PraksicaMovieController extends ControllerBase {
         );
        
     }
-};
+
+    public function loadAll($searchString){
+        if($searchString == null){
+            $nids= $this->entityQuery->get('node')->condition('type', 'movie')->execute();
+        }else{
+            $nids= $this->entityQuery->get('node')->condition('type', 'movie')->condition('title', $searchString,'CONTAINS')->execute();
+        }
+        
+        $movie_nodes = $this->entityTypeManager->getStorage('node')->loadMultiple($nids);
+        $movies2= array();
+        foreach ($movie_nodes as $movie){
+            $movies_from_for = array(
+                    'title' => $movie->title->value,
+                    'description' => $movie->field_description_field->value,
+                    'image' => $movie->field_image_field1->entity->createFileUrl()
+            );
+            array_push ($movies2, $movies_from_for);
+        }
+        return $movies2;
+    }
+    //search start
+       /* foreach($movies2 as $key => $observeMovie){
+            if((strcasecmp($searchString, array_values($observeMovie)[0]))==0 && ($searchString != null)){
+                $movies2 = array(); // ne znam fju da ispraznim array 
+                                    //pa sam inicijalizovao nanovo ovaj stari
+                                    // ako upadne ovde da dodam samo film koji se trazi
+                array_push($movies2 ,$observeMovie);
+            break;
+            }
+        }*/
+        //search end
+}
