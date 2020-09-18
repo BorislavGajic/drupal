@@ -1,4 +1,10 @@
 <ul>
+	<div>
+		<form method="get">
+			<input type="text" name="search" placeholder="Search..">
+			<button type="submit" class="btn btn-primary" action="/movies">Search</button>
+		</form>
+	</div>
 	{%for movie in movies %}
 		<li>
 			<div>
@@ -18,4 +24,7 @@
 			</div>
 		</li>
 	{% endfor %}
+	<div>
+		{{ searchString }}
+	</div>
 </ul>
